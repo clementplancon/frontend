@@ -1,0 +1,103 @@
+<div class="vegas-bg">
+  <div class="tournament-card">
+    <h1 class="tournament-title">
+      {{ isEditMode ? 'Modifier' : 'Créer' }} un tournoi
+    </h1>
+    <div *ngIf="isEditMode && code" class="tournament-code">
+      <b>Code du tournoi :</b> <span>{{ code }}</span>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Paramètres principaux -->
+      <div class="fields">
+        <label>
+          <span>Nom</span>
+          <input formControlName="nom">
+        </label>
+        <label>
+          <span>Stack initial</span>
+          <input type="number" formControlName="stack_initial">
+        </label>
+        <label>
+          <span>Valeur cave</span>
+          <input type="number" formControlName="valeur_cave">
+        </label>
+        <label>
+          <span>Nombre de tables</span>
+          <input type="number" formControlName="nb_tables">
+        </label>
+        <label>
+          <span>Joueurs par table</span>
+          <input type="number" formControlName="joueurs_par_table">
+        </label>
+        <label>
+          <span>Recave max</span>
+          <input type="number" formControlName="recave_max">
+        </label>
+      </div>
+
+      <!-- Jetons -->
+      <h3 class="section-title">Jetons</h3>
+      <div formArrayName="jetons" class="jetons-list">
+        <div *ngFor="let jeton of jetons.controls; let i = index" [formGroupName]="i" class="jeton-row">
+          <label>
+            <span>Couleur</span>
+            <input type="color" formControlName="couleur" class="color-picker">
+          </label>
+          <label>
+            <span>Valeur</span>
+            <input type="number" formControlName="valeur">
+          </label>
+          <button type="button" (click)="removeJeton(i)" class="mini-btn" aria-label="Supprimer le jeton">🗑️</button>
+        </div>
+        <button type="button" (click)="addJeton()" class="add-btn">+ Ajouter un jeton</button>
+      </div>
+
+      <!-- Blindes -->
+      <h3 class="section-title">Structure des blindes</h3>
+      <div formArrayName="blindes" class="blinde-list">
+        <div *ngFor="let blinde of blindes.controls; let i = index" [formGroupName]="i" class="blinde-row">
+          <!-- Première ligne -->
+          <div class="row1">
+            <span class="label-white">Niveau&nbsp;: {{blinde.get('niveau')?.value}}</span>
+            <label class="pause-box">
+              <input type="checkbox" formControlName="is_pause"> <span>Pause&nbsp;?</span>
+            </label>
+            <button type="button" (click)="removeBlinde(i)" class="mini-btn" aria-label="Supprimer le niveau">🗑️</button>
+          </div>
+          <!-- Deuxième ligne (SB, BB, Ante si pas pause) -->
+          <div class="row2" *ngIf="!blinde.get('is_pause')?.value">
+            <label><span>SB</span><input type="number" formControlName="sb"></label>
+            <label><span>BB</span><input type="number" formControlName="bb"></label>
+            <label><span>Ante</span><input type="number" formControlName="ante"></label>
+          </div>
+          <!-- Troisième ligne (durée) -->
+          <div class="row3">
+            <label><span>Durée (sec)</span><input type="number" formControlName="duree"></label>
+          </div>
+        </div>
+        <div class="blinde-actions">
+          <button type="button" (click)="addBlinde()" class="add-btn">+ Niveau</button>
+          <button type="button" (click)="addPause()" class="add-btn pause-btn">+ Pause</button>
+        </div>
+      </div>
+      <button type="submit" class="submit-btn">{{ isEditMode ? 'Modifier' : 'Créer' }} le tournoi</button>
+    </form>
+
+    <!-- Liste des joueurs présents (édition uniquement) -->
+    <div *ngIf="isEditMode && players.length" class="players-config-block">
+      <h3 class="section-title">Joueurs inscrits</h3>
+      <ul class="players-config-list">
+        <li *ngFor="let player of players">
+          <span class="player-pseudo">{{player.pseudo}}</span>
+          <span class="player-nom">Table-{{player.table?.numero ?? '?'}}&nbsp;Siège-{{player.siege ?? '?'}}</span>
+          <button (click)="removePlayer(player)" class="mini-btn btn-orange">Supprimer</button>
+        </li>
+      </ul>
+    </div>
+    
+    <!-- Accès au board admin si édition -->
+    <div *ngIf="isEditMode && code" class="admin-board-access">
+      <button (click)="goToAdminBoard()" class="btn btn-neon">Accéder au board admin</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,207 @@
+.vegas-bg.admin-bg {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #212332 80%, #2b0e35 100%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3vh 0;
+  }
+  
+  .admin-card {
+    background: rgba(20, 20, 34, 0.95);
+    border-radius: 18px;
+    box-shadow: 0 0 18px 4px #00ffea44, 0 4px 48px 8px #001a3c66;
+    padding: 2.5rem 2rem 2rem 2rem;
+    max-width: 720px;
+    width: 100%;
+    color: #fff;
+    font-family: 'Montserrat', 'Share Tech Mono', monospace;
+  }
+  
+  .neon-title {
+    color: #09ffe6;
+    text-shadow: 0 0 16px #09ffe666, 0 0 3px #fff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2.3rem;
+    letter-spacing: 1.5px;
+    text-align: center;
+  }
+  
+  .tournament-info {
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  
+    .state-label { color: #fff; }
+    .state-value {
+      padding: 2px 18px;
+      border-radius: 14px;
+      font-weight: bold;
+      text-shadow: 0 0 7px #00fff4aa;
+      background: #18181c;
+      &.config { color: #00ffe4; }
+      &.en_cours { color: #ffef00; }
+      &.pause { color: #ff7f00; }
+      &.finished { color: #ff2d2d; }
+    }
+    .state-actions {
+      display: flex; gap: 0.6rem;
+      .btn { min-width: 100px; }
+    }
+  }
+  
+  .block-title {
+    margin: 1.2em 0 0.7em 0;
+    font-size: 1.17em;
+    color: #09ffe6;
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 8px #09ffe633;
+  }
+  
+  .blindes-block, .tables-block, .leaderboard-block, .rebalancing-block {
+    margin-bottom: 1.6em;
+  }
+
+  .blindes-block .blinde-row.current-level {
+    background: #181b29;
+    border: 2px solid #09ffe6;
+    color: #fff;
+    border-radius: 15px;
+    font-size: 1.19em;
+    font-family: 'Share Tech Mono', monospace;
+    align-items: center;
+    margin-bottom: 1em;
+    padding: 1.2em 1.2em 1em 1.1em;
+    .level { color: #09ffe6; font-size: 1.25em; font-weight: 600; margin-right: 1em; }
+    .timer { color: #ffef00; font-weight: bold; margin-left: 1.2em; font-family: inherit; font-size: 1.17em;}
+    .timer.paused { color: #ff3366; }
+  }
+  .next-level-info {
+    color: #ccc;
+    margin-top: 0.3em;
+    font-size: 0.97em;
+    b { color: #ffe600; }
+  }
+  
+  
+  .blinde-row {
+    display: flex;
+    align-items: center;
+    background: #24243d;
+    border-radius: 10px;
+    padding: 0.6em 1.1em;
+    margin-bottom: 0.45em;
+    .level { font-weight: bold; width: 85px; }
+    .blindes, .pause-label, .duree { margin: 0 0.8em; }
+    .pause-label { color: #ffd700; font-weight: 600; }
+  }
+  
+  .tables-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6em;
+    @media (max-width: 600px) { flex-direction: column; gap: 0.7em; }
+  }
+  .table-card {
+    background: #151527e8;
+    border: 1.5px solid #09ffe666;
+    border-radius: 12px;
+    padding: 1em 1.3em 1.1em 1.3em;
+    width: 100%;
+    min-width: 170px;
+  }
+  .players-list {
+    list-style: none; margin: 0; padding: 0;
+    li {
+      margin: 0.3em 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      font-size: 1em;
+      .player-pseudo { color: #09ffe6; font-weight: 500; }
+      .player-nom { color: #aaa; font-size: 0.95em;}
+      .player-out { color: #ff3366; font-weight: 600; }
+      .mini-btn {
+        background: #23234c;
+        border: none;
+        color: #fff;
+        border-radius: 8px;
+        padding: 2px 10px;
+        margin-left: 0.2em;
+        cursor: pointer;
+        font-size: 0.97em;
+        transition: background 0.15s;
+        &.btn-green { background: #12ff6d; color: #181a22; }
+        &.btn-red { background: #ff2d2d; color: #fff; }
+        &.btn-neon { background: #09ffe6; color: #1a2327; }
+      }
+      .recaves-badge { background: #ffe600; color: #222; padding: 1px 7px; border-radius: 7px; font-size: 0.95em; margin-left: 4px; }
+    }
+  }
+  
+  .rebalancing-block {
+    margin: 2em 0 0 0;
+    background: #221833;
+    border-radius: 15px;
+    padding: 1.4em;
+    border: 1.5px solid #ffef00aa;
+    color: #fff;
+    .block-title { color: #ffef00; text-shadow: 0 0 10px #ffef0033; }
+    button { margin-left: 1em; }
+  }
+  
+  .leaderboard-block {
+    background: #18183c;
+    border-radius: 12px;
+    padding: 1.1em 1.4em;
+    ol { padding-left: 1.4em; }
+    li { margin-bottom: 0.2em; color: #fff; }
+  }
+  
+  .btn, .btn-neon, .btn-orange, .btn-green {
+    font-family: inherit;
+    border: none;
+    border-radius: 14px;
+    padding: 0.6em 1.3em;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0 0.2em;
+    margin-top: 0.3em;
+    background: #00ffe6;
+    color: #181b24;
+    transition: background 0.17s, color 0.17s, box-shadow 0.17s;
+    box-shadow: 0 0 12px #09ffe633;
+    &.btn-orange { background: #ff9900; color: #221823; box-shadow: 0 0 12px #ff990055;}
+    &.btn-green { background: #12ff6d; color: #0e2822; box-shadow: 0 0 11px #12ff6d44; }
+  }
+  
+  @media (max-width: 600px) {
+    .admin-card { padding: 1.2em 0.5em; }
+    .tables-list { flex-direction: column; gap: 0.5em; }
+    .table-card { width: 100%; min-width: 0; }
+  }
+  
+  .seat-modal-bg {
+    position: fixed; z-index: 10; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(16,16,32,0.93); display: flex; align-items: center; justify-content: center;
+  }
+  .seat-modal {
+    background: #19192b; border-radius: 15px; padding: 2em; min-width: 280px; color: #fff;
+    box-shadow: 0 0 22px #00ffe699;
+    button { margin: 0.5em 0.3em; }
+  }
+  .rebalancing-block {
+    margin: 2em 0 1em 0;
+    background: #221833;
+    border-radius: 15px;
+    padding: 1.4em 2em;
+    border: 1.5px solid #ffef00aa;
+    color: #fff;
+    .block-title { color: #ffef00; text-shadow: 0 0 10px #ffef0033; }
+    .mini-btn { margin-left: 1em; }
+    .info-msg { color: #ffef00; font-size: 1em; margin-top: 1em; }
+  }
+  

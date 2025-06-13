@@ -1,0 +1,143 @@
+<div class="vegas-bg admin-bg">
+    <div class="admin-card" *ngIf="tournament">
+        <h2 class="neon-title">Tournoi <span>"{{ tournament.nom }}"</span></h2>
+        <div class="tournament-info">
+            <span class="state-label">État :</span>
+            <span class="state-value" [ngClass]="tournament.etat">{{ tournament.etat | uppercase }}</span>
+            <div class="state-actions">
+                <button *ngIf="tournament.etat === 'config'" (click)="startTournament()" class="btn btn-neon">Démarrer</button>
+                <button *ngIf="tournament.etat === 'en_cours'" (click)="pauseTournament()" class="btn btn-orange">Pause</button>
+                <button *ngIf="tournament.etat === 'pause'" (click)="resumeTournament()" class="btn btn-green">Reprendre</button>
+            </div>
+            <div class="admin-actions" *ngIf="tournament && tournament.etat === 'config'">
+                <button class="btn btn-neon" (click)="assignSeats()" [disabled]="loading">
+                    Répartir les joueurs aux tables
+                </button>
+            </div>
+        </div>
+  
+      <!-- Bloc Clock/Blindes -->
+        <div class="blindes-block" *ngIf="clockInfo">
+            <h3 class="block-title">Blindes & Timer</h3>
+            <div class="blinde-row current-level">
+            <span class="level">Niveau {{clockInfo.level.niveau}}</span>
+            <span *ngIf="!clockInfo.level.is_pause" class="blindes">
+                SB <b>{{clockInfo.level.sb}}</b> / BB <b>{{clockInfo.level.bb}}</b>
+                <span *ngIf="clockInfo.level.ante"> / Ante <b>{{clockInfo.level.ante}}</b></span>
+            </span>
+            <span *ngIf="clockInfo.level.is_pause" class="pause-label">Pause</span>
+            <span class="duree">
+                <ng-container *ngIf="!tournament.clock.paused">
+                <span class="timer"><i class="fa fa-hourglass"></i>
+                    {{ (clockInfo.remaining / 60) | number:'1.0-0' }}:{{ (clockInfo.remaining % 60) | number:'2.0' }}
+                </span>
+                </ng-container>
+                <ng-container *ngIf="tournament.clock.paused">
+                <span class="timer paused">PAUSE</span>
+                </ng-container>
+            </span>
+            <button *ngIf="tournament.etat === 'en_cours'" class="mini-btn btn-neon" (click)="nextLevel()" style="margin-left: 1em;">Niveau suivant</button>
+            <button *ngIf="tournament.etat !== 'config'" class="mini-btn btn-orange" (click)="resetClock()" style="margin-left: 0.7em;">Reset timer</button>
+            </div>
+            <div *ngIf="tournament.blind_levels[clockInfo.level.niveau]" class="next-level-info">
+            <span *ngIf="tournament.blind_levels.length > clockInfo.level.niveau+1">
+                <b>Niveau suivant :</b>
+                <span>
+                SB {{tournament.blind_levels[clockInfo.level.niveau+1]?.sb}} /
+                BB {{tournament.blind_levels[clockInfo.level.niveau+1]?.bb}}
+                <span *ngIf="tournament.blind_levels[clockInfo.level.niveau+1]?.ante"> / Ante {{tournament.blind_levels[clockInfo.level.niveau+1]?.ante}}</span>
+                - {{tournament.blind_levels[clockInfo.level.niveau+1]?.duree}}s
+                </span>
+            </span>
+            </div>
+        </div>
+
+        <div *ngIf="rebalancing" class="rebalancing-block">
+            <h3 class="block-title">Rééquilibrage requis</h3>
+            <div *ngIf="rebalancing.type === 'move_one'">
+              <p>
+                <b>La table #{{rebalancing.fromTable}}</b> a trop de joueurs.<br>
+                <b>Déplacer un joueur vers la table #{{rebalancing.toTable}}</b>.<br>
+                Joueurs éligibles :
+              </p>
+              <ul>
+                <li *ngFor="let c of rebalancing.candidates">
+                  {{c.pseudo}}
+                  <button class="mini-btn btn-neon"
+                    (click)="seatChange({ id: c.id, tableId: rebalancing.fromTable }, getTableById(rebalancing.toTable))">
+                    Déplacer vers table #{{rebalancing.toTable}}
+                  </button>
+                </li>
+              </ul>
+              <p class="info-msg">Le tournoi est en pause. Effectuez le déplacement pour continuer.</p>
+            </div>
+            <div *ngIf="rebalancing?.type === 'full_redistribute'" class="rebalancing-block">
+                <h3 class="block-title">Rééquilibrage requis</h3>
+                <p>
+                  La <b>table #{{rebalancing.fromTable}}</b> doit être fermée et ses joueurs redistribués.<br>
+                  Cliquez sur le bouton ci-dessous pour répartir les joueurs automatiquement.
+                </p>
+                <button class="mini-btn btn-neon" (click)="fullRedistribute()" [disabled]="loading">
+                  Répartir automatiquement et fermer la table
+                </button>
+                <p class="info-msg">Le tournoi est en pause. Cette opération est automatique.</p>
+              </div>
+              <div *ngIf="rebalancing?.type === 'full_redistribute_finale'" class="rebalancing-block">
+                  <h3 class="block-title">Table finale</h3>
+                  <p>
+                    C'est l'heure de la <b>table finale</b>.<br>
+                    Cliquez sur le bouton ci-dessous pour répartir les joueurs automatiquement.
+                  </p>
+                  <button class="mini-btn btn-neon" (click)="fullFinalRedistribute()" [disabled]="loading">
+                    Répartir les joueurs à la table finale
+                  </button>
+                  <p class="info-msg">Le tournoi est en pause. Cette opération est automatique.</p>
+                </div>
+        </div>
+  
+      <!-- ... (tables et joueurs/équilibrage/leaderboard comme avant) ... -->
+       <!-- Liste des tables et joueurs -->
+        <div class="tables-block" *ngIf="tournament?.tables">
+            <h3 class="block-title">Tables & Joueurs</h3>
+            <div class="tables-list">
+                <div class="table-card" *ngFor="let table of tournament.tables">
+                    <div class="table-title">Table #{{table.numero}}</div>
+                    <ul class="players-list">
+                        <li *ngFor="let player of table.players">
+                            <span class="player-pseudo">{{ player.pseudo }}</span>
+                            <span class="player-nom" *ngIf="player.nom && player.nom !== player.pseudo">({{ player.nom }})</span>
+                            <span *ngIf="player.is_out" class="player-out">OUT</span>
+                            <span *ngIf="!player.is_out" class="recaves-badge">R: {{player.recaves ?? 0}}</span>
+                            
+                            <button class="mini-btn btn-green" *ngIf="!player.is_out && isRecavable(player)" (click)="eliminatePlayer(player, true)">
+                            Recave
+                            </button>
+                            <button class="mini-btn btn-red" *ngIf="!player.is_out" (click)="eliminatePlayer(player, false)">
+                            Éliminer
+                            </button>
+                            <button class="mini-btn btn-neon" *ngIf="!player.is_out" (click)="openSeatChange(table, player)">
+                            Réassigner
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popin réassignation de siège -->
+<div class="seat-modal-bg" *ngIf="seatChangeData">
+    <div class="seat-modal">
+      <h4>Réassigner {{seatChangeData.player.pseudo}}</h4>
+      <div *ngFor="let t of tournament.tables">
+        <button 
+          [disabled]="t.id === seatChangeData.fromTableId || !hasFreeSeat(t)" 
+          (click)="seatChange(seatChangeData.player, t)">
+          Table #{{t.numero}} ({{freeSeatsCount(t)}} sièges libres)
+        </button>
+      </div>
+      <button class="mini-btn btn-red" (click)="seatChangeData=null">Annuler</button>
+    </div>
+  </div>
+  

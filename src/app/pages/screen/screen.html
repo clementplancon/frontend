@@ -1,0 +1,90 @@
+<div class="screen-bg">
+    <div class="screen-card" *ngIf="tournament">
+      <!-- Messages -->
+      <div class="notif-toast" *ngIf="tableChangeMsg">{{ tableChangeMsg }}</div>
+      <div class="notif-toast redistribution" *ngIf="redistributionMsg">{{ redistributionMsg }}</div>
+  
+      <!-- Joueurs pré-tournoi, pas répartis -->
+      <ng-container *ngIf="tournament.etat === 'config' && !tousRepartis()">
+        <h1 class="main-title">Joueurs inscrits</h1>
+        <div class="fit-area">
+          <div class="player-list auto-grid">
+            <div *ngFor="let p of players" class="player-cell">{{ p.pseudo }}</div>
+          </div>
+        </div>
+      </ng-container>
+  
+      <!-- Pré-tournoi, répartis -->
+      <ng-container *ngIf="tournament.etat === 'config' && tousRepartis()">
+        <h1 class="main-title">Répartition aux tables</h1>
+        <div class="fit-area tables-fit" [ngStyle]="getGridVarsTables()">
+            <div class="tables-grid auto-fit-tables">
+              <div class="table-card" *ngFor="let table of playersByTable()">
+                <div class="table-title">Table #{{ table.numero }}</div>
+                <div class="table-seats auto-fit-seats" [ngStyle]="getGridVarsSeats(table.players.length)">
+                  <div class="seat-cell" *ngFor="let p of table.players">
+                    <span class="seat-num">#{{ p.siege }}</span> {{ p.pseudo }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </ng-container>
+  
+      <!-- Tournoi en cours / en pause -->
+      <ng-container *ngIf="tournament.etat === 'en_cours' || tournament.etat === 'pause'">
+        <div class="main-row">
+          <!-- Centre : timer + blindes + jetons dessous -->
+          <div class="center-main">
+            <div class="timer-blind-block">
+              <div class="timer-display" [class.paused]="tournament.clock?.paused">
+                {{ tournament.clock?.paused ? 'PAUSE' : timerDisplay }}
+              </div>
+              <div class="blinde-info">
+                <span *ngIf="currentLevel">
+                  SB <b>{{currentLevel.sb}}</b> / BB <b>{{currentLevel.bb}}</b>
+                  <span *ngIf="currentLevel.ante">/ Ante <b>{{currentLevel.ante}}</b></span>
+                </span>
+              </div>
+              <div class="next-level" *ngIf="nextLevel">
+                <span>Niveau Suivant : SB {{nextLevel.sb}} / BB {{nextLevel.bb}}<span *ngIf="nextLevel.ante"> / Ante {{nextLevel.ante}}</span></span>
+              </div>
+            </div>
+            <div class="jetons-big-list">
+              <span class="jeton-big" *ngFor="let j of tournament.jetons">
+                <span class="jeton-dot-big" [style.background]="j.couleur"></span>
+                <span class="jeton-val">{{ j.valeur }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Bande info bas d’écran -->
+        <div class="bottom-bar">
+          <span>
+            <b>Joueurs restants :</b> {{ joueursRestants() }}
+          </span>
+          <span>
+            <b>Stack moyen :</b> {{ stackMoyen() }}
+          </span>
+          <span>
+            <b>Cash Prize :</b> {{ cashPrize() | number }} €
+          </span>
+        </div>
+      </ng-container>
+  
+      <!-- Fin de tournoi : classement -->
+      <ng-container *ngIf="isTournoiFini()">
+        <h1 class="main-title">Tournoi terminé</h1>
+        <div class="fit-area leaderboard-fit" [ngStyle]="getGridVarsLeaderboard()">
+            <div class="leaderboard-auto">
+              <div class="leader-row" *ngFor="let p of classement(); let i = index">
+                <span class="rank">#{{ i + 1 }}</span>
+                <span class="pseudo">{{ p.pseudo }}</span>
+                <span *ngIf="p.is_out" class="out">(Éliminé)</span>
+              </div>
+            </div>
+          </div>
+      </ng-container>
+    </div>
+  </div>
+  

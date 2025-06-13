@@ -1,0 +1,33 @@
+<div class="vegas-bg home-bg">
+  <div class="home-card">
+    <h1 class="home-title">Gestion Tournoi Poker</h1>
+
+    <!-- Section Admin -->
+    <div class="admin-section">
+      <h2 class="section-title">Administrateur</h2>
+      <div class="btn-group">
+        <button [routerLink]="'/tournament/new'" class="btn btn-primary">Créer un tournoi</button>
+      </div>
+      <div class="join-section">
+        <label for="tournament-code-admin">Code du tournoi :</label>
+        <input id="tournament-code-admin" type="text" [(ngModel)]="code" maxlength="12" placeholder="Ex : 2A6F34B1">
+        <button (click)="onJoinTournament()" class="btn btn-secondary">Récupérer</button>
+      </div>
+    </div>
+
+    <!-- Séparateur visuel -->
+    <div class="divider"><span>Ou</span></div>
+
+    <!-- Section Joueur -->
+    <div class="player-section">
+      <h2 class="section-title">Joueur</h2>
+      <form (ngSubmit)="onJoinAsPlayer()" #playerForm="ngForm" class="join-section">
+        <label for="tournament-code-player">Code du tournoi :</label>
+        <input id="tournament-code-player" type="text" [(ngModel)]="playerCode" name="playerCode" maxlength="12" required placeholder="Entrez le code">
+        <label for="player-nickname">Pseudo :</label>
+        <input id="player-nickname" type="text" [(ngModel)]="playerName" name="playerName" maxlength="24" required placeholder="Votre pseudo">
+        <button type="submit" class="btn btn-green" [disabled]="!playerForm.form.valid">Rejoindre le salon</button>
+      </form>
+    </div>
+  </div>
+</div>
