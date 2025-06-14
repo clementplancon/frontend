@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TournamentService {
-  api = 'http://localhost:3000/tournaments'; // adapter si besoin (préfixe api...)
+  private readonly api = environment.apiUrl; // adapter si besoin (préfixe api...)
 
   constructor(private http: HttpClient) {}
 

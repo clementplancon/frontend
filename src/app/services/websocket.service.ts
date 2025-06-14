@@ -2,14 +2,16 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class WebsocketService {
   private socket: Socket | null = null;
+  private readonly wsUrl = environment.wsUrl; // adapter si besoin (préfixe api...)
 
   connect(type: 'admin' | 'player' | 'screen', code: string): void {
     if (!this.socket) {
-      this.socket = io('http://localhost:3000', { transports: ['websocket'] });
+      this.socket = io(this.wsUrl, { transports: ['websocket'] });
       this.socket.emit('joinTournamentRoom', { code, type });
     }
   }
