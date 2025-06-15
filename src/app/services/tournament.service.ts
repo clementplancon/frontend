@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TournamentService {
-  private readonly api = environment.apiUrl; // adapter si besoin (préfixe api...)
+  private readonly api = environment.apiUrl + "/tournaments"; // adapter si besoin (préfixe api...)
 
   constructor(private http: HttpClient) {}
 
