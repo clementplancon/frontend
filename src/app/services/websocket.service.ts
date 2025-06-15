@@ -11,7 +11,7 @@ export class WebsocketService {
 
   connect(type: 'admin' | 'player' | 'screen', code: string): void {
     if (!this.socket) {
-      this.socket = io(this.wsUrl, { transports: ['websocket'] });
+      this.socket = io('/', { path: this.wsUrl, transports: ['websocket'] });
       this.socket.emit('joinTournamentRoom', { code, type });
     }
   }
