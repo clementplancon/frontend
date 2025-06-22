@@ -159,6 +159,7 @@
     padding: 1.1vw 3vw; text-align: center; z-index: 100;
     animation: fadeInOut 7s;
   }
+  .notif-toast.eliminated { background: #ff005d; color: #fff; }
   .notif-toast.redistribution { background: #00ffe0; color: #151727; }
   @keyframes fadeInOut {
     0% { opacity: 0; }

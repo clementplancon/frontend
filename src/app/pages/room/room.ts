@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subscription, interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { SoundService } from '../../services/sound.service';
 
 @Component({
   selector: 'app-room',
@@ -15,6 +16,7 @@ export class Room implements OnInit, OnDestroy {
   ws = inject(WebsocketService);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  sound = inject(SoundService);
 
   code = '';
   playerName = '';
@@ -95,6 +97,17 @@ export class Room implements OnInit, OnDestroy {
       this.updateClockInfos();
       this.cashPrize = this.calculateCashPrize();
       this.averageStack = this.calculateAverageStack();
+    });
+
+    this.ws.on<any>('blindsUp').subscribe(level => {
+      this.sound.play('blinds-up');
+    });
+
+    this.ws.on<any>('playerEliminated').subscribe(ev => {
+      // Si c'est ce joueur qui est out, joue le son
+      if (ev?.playerId && this.player?.id === ev.playerId) {
+        this.sound.play('eliminated');
+      }
     });
 
     // Actualise le timer toutes les 500ms

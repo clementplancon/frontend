@@ -3,6 +3,7 @@
       <!-- Messages -->
       <div class="notif-toast" *ngIf="tableChangeMsg">{{ tableChangeMsg }}</div>
       <div class="notif-toast redistribution" *ngIf="redistributionMsg">{{ redistributionMsg }}</div>
+      <div class="notif-toast eliminated" *ngIf="eliminatedMsg">{{ eliminatedMsg }}</div>
   
       <!-- Joueurs pré-tournoi, pas répartis -->
       <ng-container *ngIf="tournament.etat === 'config' && !tousRepartis()">

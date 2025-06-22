@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
 import { Subscription, interval } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { SoundService } from '../../services/sound.service';
 
 @Component({
   selector: 'app-screen',
@@ -15,6 +16,7 @@ export class Screen implements OnInit, OnDestroy {
   ws = inject(WebsocketService);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  sound = inject(SoundService);
 
   code = '';
   tournament: any = null;
@@ -31,6 +33,9 @@ export class Screen implements OnInit, OnDestroy {
   tableChangeMsg: string = '';
   redistributionMsg: string = '';
   redistributionTimeout: any = null;
+
+  eliminatedMsg: string = '';
+  eliminatedTimeout: any = null;
 
   ngOnInit() {
     this.code = this.route.snapshot.paramMap.get('code') ?? '';
@@ -52,6 +57,18 @@ export class Screen implements OnInit, OnDestroy {
 
     this.ws.on<any>('playerTableChange').subscribe(ev => {
       this.showTableChangeMsg(`${ev.pseudo} doit se rendre à la table #${ev.table} siège #${ev.siege}`);
+    });
+
+    this.ws.on<any>('blindsUp').subscribe(level => {
+      this.sound.play('blinds-up');
+    });
+
+    this.ws.on<any>('playerEliminated').subscribe(ev => {
+      this.sound.play('eliminated');
+      // Affiche l'alerte "X est éliminé"
+      if (ev?.pseudo) {
+        this.showEliminatedMsg(`${ev.pseudo} a été éliminé !`);
+      }
     });
 
     this.timerSub = interval(500).subscribe(() => this.updateClockInfos());
@@ -105,6 +122,11 @@ export class Screen implements OnInit, OnDestroy {
     this.redistributionMsg = msg;
     if (this.redistributionTimeout) clearTimeout(this.redistributionTimeout);
     this.redistributionTimeout = setTimeout(() => this.redistributionMsg = '', 9000);
+  }
+  showEliminatedMsg(msg: string) {
+    this.eliminatedMsg = msg;
+    if (this.eliminatedTimeout) clearTimeout(this.eliminatedTimeout);
+    this.eliminatedTimeout = setTimeout(() => this.eliminatedMsg = '', 7000);
   }
 
   // Helpers
