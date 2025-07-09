@@ -141,11 +141,11 @@ export class TournamentForm implements OnInit, OnDestroy {
   }
   addBlinde() {
     const niveau = this.blindes.length + 1;
-    this.blindes.push(this.createBlindeGroup(niveau));
+    this.blindes.push(this.createBlindeGroup(undefined, niveau));
   }
   addPause() {
     const niveau = this.blindes.length + 1;
-    this.blindes.push(this.createPauseGroup(niveau));
+    this.blindes.push(this.createPauseGroup(undefined, niveau));
   }
   removeBlinde(index: number) {
     if (this.blindes.length > 1) this.blindes.removeAt(index);
@@ -192,7 +192,7 @@ export class TournamentForm implements OnInit, OnDestroy {
     const value = {
       ...this.form.value,
       jetons: this.jetons.value,
-      blind_levels: this.blindes.value
+      blindes: this.blindes.value
     };
 
     if (this.isEditMode && this.code) {

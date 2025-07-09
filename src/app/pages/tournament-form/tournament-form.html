@@ -59,6 +59,7 @@
           <!-- Première ligne -->
           <div class="row1">
             <span class="label-white">Niveau&nbsp;: {{blinde.get('niveau')?.value}}</span>
+            <input type="number" formControlName="id" hidden [disabled]="true">
             <label class="pause-box">
               <input type="checkbox" formControlName="is_pause"> <span>Pause&nbsp;?</span>
             </label>
