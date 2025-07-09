@@ -44,8 +44,8 @@ export class TournamentForm implements OnInit, OnDestroy {
         this.createJetonGroup('#ff0000', 100)
       ]),
       blindes: this.fb.array([
-        this.createBlindeGroup(1, 50, 100, 720, false),
-        this.createPauseGroup(2, 300)
+        this.createBlindeGroup(undefined, 1, 50, 100, 720, false),
+        this.createPauseGroup(undefined, 2, 300)
       ])
     });
   }
@@ -125,8 +125,9 @@ export class TournamentForm implements OnInit, OnDestroy {
   get blindes() {
     return this.form.get('blindes') as FormArray;
   }
-  createBlindeGroup(niveau = 1, sb = 100, bb = 200, duree = 600, is_pause = false, ante?: number): FormGroup {
+  createBlindeGroup(id: number | undefined, niveau = 1, sb = 100, bb = 200, duree = 600, is_pause = false, ante?: number): FormGroup {
     return this.fb.group({
+      id: [id],
       niveau: [niveau, Validators.required],
       sb: [is_pause ? null : sb],
       bb: [is_pause ? null : bb],
@@ -135,8 +136,8 @@ export class TournamentForm implements OnInit, OnDestroy {
       is_pause: [is_pause]
     });
   }
-  createPauseGroup(niveau = 2, duree = 300): FormGroup {
-    return this.createBlindeGroup(niveau, undefined, undefined, duree, true);
+  createPauseGroup(id:  number | undefined, niveau = 2, duree = 300): FormGroup {
+    return this.createBlindeGroup(id, niveau, undefined, undefined, duree, true);
   }
   addBlinde() {
     const niveau = this.blindes.length + 1;
@@ -173,9 +174,9 @@ export class TournamentForm implements OnInit, OnDestroy {
       data.blind_levels.forEach((b: any) => {
         console.log('Processing blinde:', b);
         if (b.is_pause) {
-          this.blindes.push(this.createPauseGroup(b.niveau, b.duree));
+          this.blindes.push(this.createPauseGroup(b.id, b.niveau, b.duree));
         } else {
-          this.blindes.push(this.createBlindeGroup(b.niveau, b.sb, b.bb, b.duree, false, b.ante));
+          this.blindes.push(this.createBlindeGroup(b.id, b.niveau, b.sb, b.bb, b.duree, false, b.ante));
         }
       });
     }
