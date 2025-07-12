@@ -141,3 +141,14 @@
     </div>
   </div>
   
+  <!-- Popin confirmation d'action -->
+<div class="confirm-modal-bg" *ngIf="confirmDialog">
+  <div class="confirm-modal">
+    <h4>Confirmation</h4>
+    <p>{{ confirmDialog.message }}</p>
+    <div class="confirm-actions">
+      <button class="mini-btn btn-green" (click)="confirmDialog.confirm()">Confirmer</button>
+      <button class="mini-btn btn-red" (click)="closeConfirmDialog()">Annuler</button>
+    </div>
+  </div>
+</div>

@@ -31,6 +31,7 @@ export class AdminBoard implements OnInit, OnDestroy {
   clockInfo: { level: any, elapsed: number, remaining: number } | null = null;
   seatChangeData: { player: any, fromTableId: number } | null = null;
   fullRedistributeMapping: { [playerId: number]: number } = {};
+  confirmDialog: { message: string; confirm: () => void } | null = null;
 
   ngOnInit() {
     this.code = this.route.snapshot.paramMap.get('code') ?? '';
@@ -100,7 +101,12 @@ export class AdminBoard implements OnInit, OnDestroy {
   pauseTournament() { this.toggleLoading(this.tournamentService.pauseTournament(this.code, this.adminToken)); }
   resumeTournament() { this.toggleLoading(this.tournamentService.resumeTournament(this.code, this.adminToken)); }
   nextLevel() { this.toggleLoading(this.tournamentService.nextLevel(this.code, this.adminToken)); }
-  resetClock() { this.toggleLoading(this.tournamentService.resetClock(this.code, this.adminToken)); }
+  resetClock() {
+    this.openConfirmDialog(
+      "Réinitialiser le timer du tournoi ? Cette action ne peut pas être annulée.",
+      () => this.toggleLoading(this.tournamentService.resetClock(this.code, this.adminToken))
+    );
+  }
   assignSeats() {
     this.loading = true;
     this.tournamentService.assignSeats(this.code, this.adminToken)
@@ -136,29 +142,41 @@ export class AdminBoard implements OnInit, OnDestroy {
   // Réassigner joueur à une nouvelle table (siège aléatoire)
   seatChange(player: any, toTable: any) {
     if (!toTable || !player) return;
-    this.loading = true;
-    this.tournamentService.seatChange(this.code, {
-        fromTableId: player.tableId,
-        toTableId: toTable.id,
-        playerId: player.id
-      }, this.adminToken).subscribe({
-        complete: () => {
-          this.loading = false;
-          this.seatChangeData = null;
-          this.rebalancing = null; // Ferme le rebalancing si en cours
-        }
-      });
+    this.openConfirmDialog(
+      `Confirmer le changement de table du joueur "${player.pseudo}" vers la table #${toTable.numero} ?`,
+      () => {
+        this.loading = true;
+        this.tournamentService.seatChange(this.code, {
+          fromTableId: player.tableId,
+          toTableId: toTable.id,
+          playerId: player.id
+        }, this.adminToken).subscribe({
+          complete: () => {
+            this.loading = false;
+            this.seatChangeData = null;
+            this.rebalancing = null;
+          }
+        });
+      }
+    );
   }
   
   // Recave/Éliminer un joueur
   eliminatePlayer(player: any, recave: boolean) {
-    this.loading = true;
-    this.tournamentService.eliminatePlayer(this.code, {
-      playerId: player.id,
+    this.openConfirmDialog(
       recave
-    }, this.adminToken).subscribe({
-      complete: () => this.loading = false
-    });
+        ? `Confirmer la recave du joueur "${player.pseudo}" ?`
+        : `Confirmer l'élimination du joueur "${player.pseudo}" ?`,
+      () => {
+        this.loading = true;
+        this.tournamentService.eliminatePlayer(this.code, {
+          playerId: player.id,
+          recave
+        }, this.adminToken).subscribe({
+          complete: () => this.loading = false
+        });
+      }
+    );
   }
   
   // Vérifie si recave autorisé
@@ -223,6 +241,13 @@ export class AdminBoard implements OnInit, OnDestroy {
       },
       error: () => this.loading = false
     });
+  }
+
+  openConfirmDialog(message: string, onConfirm: () => void) {
+    this.confirmDialog = { message, confirm: () => { onConfirm(); this.closeConfirmDialog(); } };
+  }
+  closeConfirmDialog() {
+    this.confirmDialog = null;
   }
   
 }

@@ -38,7 +38,7 @@ export class TournamentForm implements OnInit, OnDestroy {
       nb_tables: [4, Validators.required],
       joueurs_par_table: [8, Validators.required],
       recave_max: [2],
-      niveau_recave_max: [6],
+      niveau_recave_max: [0, Validators.min(0)], // 0 = pas de limite
       jetons: this.fb.array([
         this.createJetonGroup('#808080', 50),
         this.createJetonGroup('#ff0000', 100)

@@ -5,6 +5,33 @@
     <div class="room-card" *ngIf="tournament && player">
       <h1 class="room-title">Tournoi "{{tournament.nom}}"</h1>
   
+      <!-- Bloc blindes, timer et infos tournoi -->
+      <div class="blinde-row">
+        <div class="blinde-info">
+          <h3>Niveau actuel</h3>
+          <div *ngIf="currentLevel">
+            <span *ngIf="!currentLevel.is_pause">
+              SB <b>{{currentLevel.sb}}</b> / BB <b>{{currentLevel.bb}}</b>
+              <span *ngIf="currentLevel.ante">/ Ante <b>{{currentLevel.ante}}</b></span>
+            </span>
+            <span *ngIf="currentLevel.is_pause" class="pause-label">Pause</span>
+          </div>
+          <div class="timer-bar">
+            <div class="timer-progress" [style.width.%]="timerPerc"></div>
+          </div>
+          <div class="timer-display">{{timerDisplay}}</div>
+        </div>
+        <div class="next-blinde-info" *ngIf="nextLevel">
+          <h3>Niveau Suivant</h3>
+          <span *ngIf="!nextLevel.is_pause">
+            SB <b>{{nextLevel.sb}}</b> / BB <b>{{nextLevel.bb}}</b>
+            <span *ngIf="nextLevel.ante">/ Ante <b>{{nextLevel.ante}}</b></span>
+          </span>
+          <span *ngIf="nextLevel.is_pause" class="pause-label">Pause</span>
+          <div class="duration">({{nextLevel.duree}} sec)</div>
+        </div>
+      </div>
+  
       <!-- Blocs infos joueur/table -->
       <div class="info-row" *ngIf="!eliminated">
         <div class="player-block">
@@ -36,33 +63,6 @@
               <span *ngIf="p.is_out" class="out">(Éliminé)</span>
             </li>
           </ol>
-        </div>
-      </div>
-  
-      <!-- Bloc blindes, timer et infos tournoi -->
-      <div class="blinde-row">
-        <div class="blinde-info">
-          <h3>Niveau actuel</h3>
-          <div *ngIf="currentLevel">
-            <span *ngIf="!currentLevel.is_pause">
-              SB <b>{{currentLevel.sb}}</b> / BB <b>{{currentLevel.bb}}</b>
-              <span *ngIf="currentLevel.ante">/ Ante <b>{{currentLevel.ante}}</b></span>
-            </span>
-            <span *ngIf="currentLevel.is_pause" class="pause-label">Pause</span>
-          </div>
-          <div class="timer-bar">
-            <div class="timer-progress" [style.width.%]="timerPerc"></div>
-          </div>
-          <div class="timer-display">{{timerDisplay}}</div>
-        </div>
-        <div class="next-blinde-info" *ngIf="nextLevel">
-          <h3>Niveau Suivant</h3>
-          <span *ngIf="!nextLevel.is_pause">
-            SB <b>{{nextLevel.sb}}</b> / BB <b>{{nextLevel.bb}}</b>
-            <span *ngIf="nextLevel.ante">/ Ante <b>{{nextLevel.ante}}</b></span>
-          </span>
-          <span *ngIf="nextLevel.is_pause" class="pause-label">Pause</span>
-          <div class="duration">({{nextLevel.duree}} sec)</div>
         </div>
       </div>
   

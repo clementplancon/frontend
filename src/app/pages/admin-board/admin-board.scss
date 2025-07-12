@@ -204,4 +204,13 @@
     .mini-btn { margin-left: 1em; }
     .info-msg { color: #ffef00; font-size: 1em; margin-top: 1em; }
   }
-  
+  .confirm-modal-bg {
+    position: fixed; z-index: 20; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(12,16,32,0.92); display: flex; align-items: center; justify-content: center;
+  }
+  .confirm-modal {
+    background: #23263a; border-radius: 16px; padding: 2.2em 2em 2em 2em; color: #fff;
+    min-width: 290px; box-shadow: 0 0 28px #09ffe699;
+    h4 { margin-top: 0; color: #09ffe6; }
+    .confirm-actions { display: flex; justify-content: flex-end; gap: 0.9em; margin-top: 1.7em; }
+  }
