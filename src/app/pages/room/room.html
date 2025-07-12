@@ -96,98 +96,58 @@
       </div>
   
       <!-- Texas Hold’em : force des mains -->
-      <div class="hands-block">
-        <svg xmlns="http://www.w3.org/2000/svg" width="500" height="2000">
-          <style>
-            .title { font: bold 24px sans-serif; fill: #d10000; }
-            .combo-title { font: bold 18px sans-serif; fill: #000; }
-            .combo-desc { font: 14px sans-serif; fill: #333; }
-            .example { font: 16px monospace; fill: #000; }
-            .box { fill: #f0f0f0; stroke: #ccc; stroke-width: 1; rx: 10; ry: 10; }
-          </style>
-        
-          <text x="20" y="40" class="title">Les combinaisons du Poker Texas Hold'em</text>
-        
-          <!-- Carte isolée -->
-          <g transform="translate(20,70)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Carte Isolée</text>
-            <text x="20" y="55" class="combo-desc">(carte la + forte)</text>
-            <text x="20" y="80" class="example">Q♣️ K♠️ 7♥️ 10♦️ 9♥️</text>
-          </g>
-        
-          <!-- Paire -->
-          <g transform="translate(20,190)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Paire</text>
-            <text x="20" y="55" class="combo-desc">(2 cartes identiques)</text>
-            <text x="20" y="80" class="example">5♦️ 5♣️ 3♣️ 10♣️ 7♣️</text>
-          </g>
-        
-          <!-- Double Paire -->
-          <g transform="translate(20,310)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Double Paire</text>
-            <text x="20" y="55" class="combo-desc">(2 + 2 cartes identiques)</text>
-            <text x="20" y="80" class="example">5♦️ 5♣️ 3♣️ 10♣️ 10♠️</text>
-          </g>
-        
-          <!-- Brelan -->
-          <g transform="translate(20,430)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Brelan</text>
-            <text x="20" y="55" class="combo-desc">(3 cartes identiques)</text>
-            <text x="20" y="80" class="example">9♥️ 9♦️ 9♣️ 6♦️ 8♥️</text>
-          </g>
-        
-          <!-- Suite -->
-          <g transform="translate(20,550)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Suite</text>
-            <text x="20" y="55" class="combo-desc">(5 cartes qui se suivent)</text>
-            <text x="20" y="80" class="example">K♣️ Q♦️ J♠️ 10♠️ 9♥️</text>
-          </g>
-        
-          <!-- Couleur -->
-          <g transform="translate(20,670)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Couleur</text>
-            <text x="20" y="55" class="combo-desc">(5 cartes de la même couleur)</text>
-            <text x="20" y="80" class="example">J♦️ 10♦️ 5♦️ 3♦️ 4♦️</text>
-          </g>
-        
-          <!-- Full -->
-          <g transform="translate(20,790)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Full</text>
-            <text x="20" y="55" class="combo-desc">(3 + 2 cartes identiques)</text>
-            <text x="20" y="80" class="example">Q♣️ Q♥️ Q♦️ 8♥️ 8♦️</text>
-          </g>
-        
-          <!-- Carré -->
-          <g transform="translate(20,910)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Carré</text>
-            <text x="20" y="55" class="combo-desc">(4 cartes identiques)</text>
-            <text x="20" y="80" class="example">9♥️ 7♦️ 7♠️ 7♣️ 7♥️</text>
-          </g>
-        
-          <!-- Quinte Flush -->
-          <g transform="translate(20,1030)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Quinte Flush</text>
-            <text x="20" y="55" class="combo-desc">(une suite de la même couleur)</text>
-            <text x="20" y="80" class="example">J♦️ 10♦️ 9♦️ 8♦️ 7♦️</text>
-          </g>
-        
-          <!-- Quinte Flush Royale -->
-          <g transform="translate(20,1150)">
-            <rect width="460" height="100" class="box"/>
-            <text x="20" y="30" class="combo-title">Quinte Flush Royale</text>
-            <text x="20" y="55" class="combo-desc">(A, K, Q, J, 10 de la même couleur)</text>
-            <text x="20" y="80" class="example">A♣️ K♣️ Q♣️ J♣️ 10♣️</text>
-          </g>
-        </svg>        
+      <div class="hands-block">  
+        <h3>Mains Texas Hold’Em (force)</h3>
+        <div>
+          <h4>Carte Isolée</h4>
+          <h5>(carte la + forte)</h5>
+          <p>Q♣️ K♠️ 7♥️ 10♦️ 9♥️</p>
+        </div>
+        <div>
+          <h4>Paire</h4>
+          <h5>(2 cartes identiques)</h5>
+          <p>5♦️ 5♣️ 3♣️ 10♣️ 7♣️</p>
+        </div>
+        <div>
+          <h4>Double Paire</h4>
+          <h5>(2 + 2 cartes identiques)</h5>
+          <p>5♦️ 5♣️ 3♣️ 10♣️ 10♠️</p>
+        </div>
+        <div>
+          <h4>Brelan</h4>
+          <h5>(3 cartes identiques)</h5>
+          <p>9♥️ 9♦️ 9♣️ 6♦️ 8♥️</p>
+        </div>
+        <div>
+          <h4>Suite</h4>
+          <h5>(5 cartes qui se suivent)</h5>
+          <p>K♣️ Q♦️ J♠️ 10♠️ 9♥️</p>
+        </div>
+        <div>
+          <h4>Couleur</h4>
+          <h5>(5 cartes de la même couleur)</h5>
+          <p>J♦️ 10♦️ 5♦️ 3♦️ 4♦️</p>
+        </div>
+        <div>
+          <h4>Full</h4>
+          <h5>(3 + 2 cartes identiques)</h5>
+          <p>Q♣️ Q♥️ Q♦️ 8♥️ 8♦️</p>
+        </div>
+        <div>
+          <h4>Carré</h4>
+          <h5>(4 cartes identiques)</h5>
+          <p>9♥️ 7♦️ 7♠️ 7♣️ 7♥️</p>
+        </div>
+        <div>
+          <h4>Quinte Flush</h4>
+          <h5>(une suite de la même couleur)</h5>
+          <p>J♦️ 10♦️ 9♦️ 8♦️ 7♦️</p>
+        </div>
+        <div>
+          <h4>Quinte Flush Royale</h4>
+          <h5>(A, K, Q, J, 10 de la même couleur)</h5>
+          <p>A♣️ K♣️ Q♣️ J♣️ 10♣️</p>
+        </div>
       </div>
     </div>
     <!-- Si pas de tournoi ou pseudo pas trouvé -->
