@@ -103,7 +103,7 @@
 }
 
 .tournoi-stats {
-  display: flex; gap: 1.6em; margin: 0.8em 0 1.2em 0; font-size: 1em;
+  display: flex; gap: 1em; margin: 0.8em 0 1.2em 0; font-size: 1em; flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: center; align-items: center;
   >div {
     background: #16172a;
     border-radius: 7px;
