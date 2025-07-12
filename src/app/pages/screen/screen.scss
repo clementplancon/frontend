@@ -87,7 +87,8 @@
     margin-bottom: 0.5vw;
   }
   .next-level { 
-    font-size: 2vw;
+    font-size: 3.5vw;
+    font-weight: 700;
     color: #ccc;
     margin-top: 0.7vw;
 }
@@ -230,7 +231,7 @@
   }
   @media (max-width: 700px) {
     .timer-display { font-size: 17vw; }
-    .blinde-info { font-size: 7vw; }
+    .blinde-info { font-size: 8.5vw; font-weight: 900; }
     .jetons-big-list { gap: 3vw; }
     .jeton-big { font-size: 6vw; }
     .jeton-dot-big { width: 7vw; height: 7vw; }
