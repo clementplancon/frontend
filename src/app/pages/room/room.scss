@@ -15,6 +15,7 @@
   box-shadow: 0 0 32px 4px #00ffe055, 0 0 60px #ff005d22;
   padding: 2.3rem 1.7rem 2.5rem 1.7rem;
   width: 100%;
+  box-sizing: border-box;
   max-width: 600px;
   border: 2.4px solid #00ffe0;
   color: #fff;
@@ -103,7 +104,7 @@
 }
 
 .tournoi-stats {
-  display: flex; gap: 1em; margin: 0.8em 0 1.2em 0; font-size: 1em; flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: center; align-items: center;
+  display: flex; gap: 1em; margin: 0.8em 0 1.2em 0; font-size: 1em; flex-direction: row; flex-wrap: wrap; width: 100%; justify-content: center; align-items: center; box-sizing: border-box;
   >div {
     background: #16172a;
     border-radius: 7px;
