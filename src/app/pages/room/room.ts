@@ -159,6 +159,15 @@ export class Room implements OnInit, OnDestroy {
     return `${m.toString().padStart(2, '0')}:${ss.toString().padStart(2, '0')}`;
   }
 
+  formatDuration(seconds: number): string {
+    if (!seconds && seconds !== 0) return '-';
+    
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
   // Calcul du prizepool : (nb joueurs x cave) et ajouter les recaves
   // Si recave_max > 0, on ajoute le montant des recaves
   // Si recave_max = 0, on ne compte pas les recaves
