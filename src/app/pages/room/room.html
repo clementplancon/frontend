@@ -89,7 +89,7 @@
             <td>{{b.sb || '-'}}</td>
             <td>{{b.bb || '-'}}</td>
             <td>{{b.ante || '-'}}</td>
-            <td>{{b.duree}}s</td>
+            <td>{{formatDuration(b.duree)}}</td>
             <td><span *ngIf="b.is_pause">✔️</span></td>
           </tr>
         </table>
